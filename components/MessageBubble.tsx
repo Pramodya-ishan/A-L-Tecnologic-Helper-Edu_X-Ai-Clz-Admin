@@ -6,7 +6,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Message, StudentCardData } from '../types';
 import { Copy, Check, FileText, Sparkles, ThumbsUp, ThumbsDown, RefreshCw, CheckCheck, Reply, Image as ImageIcon, UserCog, ExternalLink, ShieldCheck, ShieldAlert, BadgeCheck, IdCard, Youtube, CheckCircle, XCircle, Trash2, Globe } from 'lucide-react';
-import ReactPlayer from 'react-player/youtube';
+import ReactPlayer from 'react-player';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 interface MessageBubbleProps {
@@ -225,7 +225,7 @@ const VideoEmbed = ({ videoId }: { videoId: string }) => {
             config={{ 
               youtube: { 
                 playerVars: { showinfo: 0, modestbranding: 1, rel: 0, origin: window.location.origin } 
-              } 
+              } as any
             }}
           />
        </div>
@@ -359,40 +359,25 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({ message, previou
             );
         }
         
-        // Link Preview Card for standard links (Fixes length issues and makes it clickable/previewable)
-        // Check if the link is "long" (likely to break layout) or stands alone
-        const isLong = href.length > 40;
-        
-        if (isLong) {
-            let hostname = '';
-            try { hostname = new URL(href).hostname; } catch(e) { hostname = 'Link'; }
-
-            return (
-               <div className="my-2 p-3 bg-zinc-50 border border-zinc-200 rounded-xl hover:bg-zinc-100 transition-colors group/link max-w-full overflow-hidden">
-                    <a {...props} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 no-underline">
-                        <div className="p-2 bg-blue-100 text-blue-600 rounded-lg shrink-0">
-                           <Globe size={18} />
-                        </div>
-                        <div className="flex-1 min-w-0 flex flex-col">
-                           <span className="text-sm font-semibold text-zinc-900 truncate">{hostname}</span>
-                           <span className="text-xs text-zinc-500 truncate block">{href}</span>
-                        </div>
-                        <ExternalLink size={16} className="text-zinc-400 group-hover/link:text-blue-500 shrink-0" />
-                    </a>
-                </div>
-            );
-        }
+        // Link Preview Card for standard links
+        // We now render cards for any link longer than 25 chars OR if it's detected as a URL
+        const isLong = href.length > 25;
+        let hostname = 'Link';
+        try { hostname = new URL(href).hostname; } catch(e) {}
 
         return (
-            <a 
-                {...props} 
-                className="inline-flex items-center gap-1.5 bg-zinc-100/50 hover:bg-zinc-100 px-2 py-0.5 rounded-lg text-blue-600 hover:text-blue-800 transition-colors break-all group/link font-medium no-underline border border-transparent hover:border-zinc-200" 
-                target="_blank" 
-                rel="noopener noreferrer"
-            >
-                <span className="underline decoration-blue-300 underline-offset-2 break-all">{props.children}</span>
-                <ExternalLink size={12} className="inline-block opacity-70 group-hover/link:opacity-100 transition-opacity flex-shrink-0" />
-            </a>
+           <div className={`my-2 p-3 bg-zinc-50 border border-zinc-200 rounded-xl hover:bg-zinc-100 transition-colors group/link max-w-full overflow-hidden ${isLong ? 'block' : 'inline-block align-middle ml-1'}`}>
+                <a {...props} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 no-underline">
+                    <div className="p-2 bg-blue-100 text-blue-600 rounded-lg shrink-0">
+                       <Globe size={18} />
+                    </div>
+                    <div className="flex-1 min-w-0 flex flex-col">
+                       <span className="text-sm font-semibold text-zinc-900 truncate">{hostname}</span>
+                       <span className="text-xs text-zinc-500 truncate block">{href}</span>
+                    </div>
+                    <ExternalLink size={16} className="text-zinc-400 group-hover/link:text-blue-500 shrink-0" />
+                </a>
+            </div>
         );
     },
     strong: ({node, ...props}: any) => <strong {...props} className="font-bold text-zinc-900" />,
@@ -556,7 +541,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({ message, previou
                        }
 
                        return (
-                         <div key={index} className={`prose max-w-none prose-p:leading-8 prose-p:my-1 prose-li:my-1 prose-pre:my-3 prose-headings:font-semibold font-sans ${isUser ? (isAdmin ? 'prose-invert' : 'prose-slate') : 'prose-slate'}`}>
+                         <div key={index} className={`prose max-w-none prose-p:leading-8 prose-p:my-1 prose-li:my-1 prose-pre:my-3 prose-headings:font-semibold font-sans break-words ${isUser ? (isAdmin ? 'prose-invert' : 'prose-slate') : 'prose-slate'}`}>
                             <ReactMarkdown 
                               remarkPlugins={[remarkMath]}
                               rehypePlugins={[rehypeKatex]}
