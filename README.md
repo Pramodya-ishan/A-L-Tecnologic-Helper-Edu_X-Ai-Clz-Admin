@@ -1,17 +1,26 @@
 # 🚀 ETech Controller
 
-This module is designed to power an educational platform with a dual-persona AI: a specialized **Subject Tutor ("Edu_X")** and a human-mimicking **Administrative Assistant**.
+**ETech Controller** is the intelligent engine behind a next-generation educational platform. It features a sophisticated dual-persona AI system designed to switch seamlessly between a high-energy **Subject Tutor** and a human-mimicking **Administrative Assistant**, tailored specifically for the Sri Lankan educational context.
 
-### 🎭 Dynamic Personas
-The system dynamically injects system instructions based on context:
-* **Edu_X (The Tutor):** High-energy, emoji-friendly teaching persona. Supports specific subject constraints (Technology Stream), stress-detection protocols (jokes/motivation), and Socratic teaching methods.
-* **Admin (The Human):** Mimics a busy Sri Lankan support agent. Features "Night Mode" (time-aware responses), strict short-text formatting, and direct database verification for payments/IDs.
+## 🌟 Key Features
 
-### 🇱🇰 Localization & Context
-* **Language Support:** Native handling of English and Sinhala (Unicode).
-* **Cultural Context:** Built-in logic for Sri Lankan exams (A/L), local payment methods, and youth slang/Singlish parsing.
+### 🎭 Dynamic Dual-Persona Core
+The system automatically injects context-aware instructions to switch modes:
+* **Edu_X (The Tutor):** Uses Socratic methods, high-energy motivation, and emoji-friendly communication. Optimized for the Technology Stream with built-in stress detection.
+* **Admin (The Assistant):** Mimics a human support agent. Features "Night Mode" (time-aware responses), concise formatting, and verifies payments/IDs directly against the database.
 
-### 🛠️ Advanced Capabilities
-* **Tool Use:** Integrated Google Search for finding educational videos (Tutor mode only).
-* **Memory Management:** Automatic history trimming to maintain context window efficiency.
-* **Stream Stability:** Robust error handling for streaming responses.
+### 🇱🇰 Native Localization
+* **Language:** Full support for English, Sinhala (Unicode), and Singlish.
+* **Context:** Deep understanding of Sri Lankan A/L exam structures, local payment methods, and youth slang.
+
+### 🛠️ Advanced Architecture
+* **Tool Integration:** Autonomous Google Search integration for sourcing educational videos (Tutor mode).
+* **Smart Memory:** automated history trimming to optimize token usage and context window efficiency.
+* **Resilience:** Robust error handling for stable response streaming.
+
+## 📦 Installation
+
+Install the core GenAI engine and the required UI components:
+
+```bash
+npm install @google/genai @lottiefiles/dotlottie-react@latest
